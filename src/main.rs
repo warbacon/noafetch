@@ -1,5 +1,3 @@
-// mod system;
-
 use colored::*;
 use libmacchina::{GeneralReadout, KernelReadout, MemoryReadout, PackageReadout};
 
@@ -13,10 +11,9 @@ fn seconds_to_hms_unsafe(seconds: usize) -> (usize, usize, usize) {
 }
 
 fn main() {
-    use libmacchina::traits::GeneralReadout as _;
-    use libmacchina::traits::KernelReadout as _;
-    use libmacchina::traits::MemoryReadout as _;
-    use libmacchina::traits::PackageReadout as _;
+    use libmacchina::traits::{
+        GeneralReadout as _, KernelReadout as _, MemoryReadout as _, PackageReadout as _,
+    };
     let general_readout = GeneralReadout::new();
     let package_readout = PackageReadout::new();
     let kernel_readout = KernelReadout::new();
@@ -29,11 +26,7 @@ fn main() {
         general_readout.hostname().unwrap()
     );
     println!("{}", user_host.bold());
-
-    for _ in 0..user_host.len() {
-        print!("-");
-    }
-    print!("\n");
+    println!("{}", "·".repeat(user_host.len()));
 
     // OS
     println!(
@@ -46,7 +39,7 @@ fn main() {
     println!(
         "{} {}",
         "Kernel:".blue().bold(),
-        kernel_readout.pretty_kernel().unwrap(),
+        kernel_readout.os_release().unwrap(),
     );
 
     // PACKAGES
@@ -64,30 +57,27 @@ fn main() {
     let (hours, minutes, seconds) = seconds_to_hms_unsafe(general_readout.uptime().unwrap());
     print!("{} ", "Uptime:".blue().bold(),);
     if hours > 0 {
-        print!("{}h ", hours);
+        print!("{} hours ", hours);
     }
     if minutes > 0 {
-        print!("{}m ", minutes);
+        print!("{} mins ", minutes);
     }
-    println!("{}s", seconds);
-
-    // SHELL
-    print!(
-        "{} {}",
-        "Shell:".blue().bold(),
-        general_readout
-            .shell(
-                libmacchina::traits::ShellFormat::Relative,
-                libmacchina::traits::ShellKind::Current
-            )
-            .unwrap(),
-    );
+    println!("{} sec", seconds);
 
     // RAM
-    println!(
-        "{} {}MiB / {}MiB",
-        "Memory:".blue().bold(),
+    let ram = format!(
+        "{}MiB / {}MiB",
         memory_readout.used().unwrap() / 1024,
         memory_readout.total().unwrap() / 1024
     );
+    println!("{} {}", "RAM:".blue().bold(), ram);
+
+    // COLORS
+    let colors = vec![
+        "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white",
+    ];
+    colors.into_iter().for_each(|color| {
+        print!("{} ", "⬤".color(color));
+    });
+    print!("\n");
 }
