@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-colored = "2.0.0"
-libmacchina = "7.0.0"
+colored = "2.0.4"
+libmacchina = "7.2.1"
