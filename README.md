@@ -1,7 +1,7 @@
 # noafetch (no ascii-art fetch)
 
 Dead simple system information tool but insanely fast written in Rust. Currently this project
-**only supports GNU/Linux**, although it could support mac os and windows in the future.
+works properly GNU/Linux and kinda works in Windows. I haven't tested in MacOS.
 
 ![noafetch preview](./assets/noafetch.webp)
 
