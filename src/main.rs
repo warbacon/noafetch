@@ -29,11 +29,19 @@ fn main() {
     println!("{}", "·".repeat(user_host.len()));
 
     // OS
-    println!(
-        "{} {}",
-        "OS:".blue().bold(),
-        general_readout.distribution().unwrap(),
-    );
+    if ! cfg!(windows) {
+        println!(
+            "{} {}",
+            "OS:".blue().bold(),
+            general_readout.distribution().unwrap(),
+        );
+    } else {
+        println!(
+            "{} {}",
+            "OS:".blue().bold(),
+            "Windows"
+        );
+    }
 
     // KERNEL
     println!(
